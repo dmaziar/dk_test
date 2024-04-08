@@ -1,20 +1,21 @@
 import { test, expect } from '@playwright/test';
-import Helper from './pages/helper';
+import Brands from './pages/brands';
+import Brand from './pages/brand';
+import Utils from './pages/utils';
 
 test.describe('Onskeskyen test', ()=>{
 	test('Check number of trending list followers', async ({ page }) =>{
-		const helper = new Helper( page );
+		const brandsPage = new Brands( page );
+		const brandPage = new Brand ( page );
+		const utils = new Utils ( page );
+
 		await page.goto('/da/brands');
-		const acceptBtn = page.locator('[aria-label="Accepter alle"]');
-		await acceptBtn.waitFor();
-		await acceptBtn.click();
-		await page.getByText('Børn & Baby').click();
-		await expect(page.locator('[class*="BrandsCategoryTitle"]')).toHaveText('Børn & Baby');
-		await helper.clickLoadMore();
-		await page.getByRole('heading', { name: 'Plysdyr.dk' }).locator('..').locator('img').click();
-		await page.getByText('De største bamser').click();
-		await page.getByRole('heading', { name: 'De største bamser' }).waitFor();
-		await expect(page.locator('[class*="WishCard__WishImageContainer"]')).toHaveCount(17);
+		await utils.acceptCookieConsent();
+		await brandsPage.selectCategory('Børn & Baby');
+		await utils.clickLoadMore();
+		await brandsPage.selectBrand('Plysdyr.dk');
+		await brandPage.openTrandinglist('De største bamser');
+		await expect( brandPage.getTrandingList() ).toHaveCount(17);
 	});
 });
 
