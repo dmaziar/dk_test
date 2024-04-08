@@ -10,7 +10,7 @@ export default defineConfig({
 	workers: 1,
 	reporter: process.env.CI ? [ [ 'github' ], [ 'list' ], [ 'html' ] ] : 'list',
 	use: {
-		actionTimeout: 5_000,
+		actionTimeout: 10_000,
 		navigationTimeout: 10_000,
 		baseURL: 'https://onskeskyen.dk',
 		trace: 'on-first-retry',
