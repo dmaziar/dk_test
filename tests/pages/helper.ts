@@ -14,6 +14,7 @@ export default class Helper {
 			if ( await this.page.$(this.loadMoreBtnSelector) ) {
 				const brandCount = await this.page.locator('[class*="GridDefaultBrands"] .fade-in').count();
 				await this.page.locator(this.loadMoreBtnSelector).click();
+				await this.page.waitForLoadState('networkidle');
 				await expect.poll(async () =>{
 					return await this.page.locator('[class*="GridDefaultBrands"] .fade-in').count();
 				}).not.toEqual(brandCount);
